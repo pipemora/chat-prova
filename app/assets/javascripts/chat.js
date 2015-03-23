@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  $('.keyboard_button').click(function(){
+    $('.keyboard').toggle();
+});
+
   /*
   * Create a Firebase Reference
   *
