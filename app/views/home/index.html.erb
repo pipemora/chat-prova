@@ -1,69 +1,49 @@
+<!doctype html>
 <html>
-<head>
-  <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
-  <link rel="stylesheet" type="text/css" href="/resources/tutorial/css/example.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<!-- CHAT MARKUP -->
-<div class="example-chat l-demo-container">
-  <header>Firebase Chat Demo</header>
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="css/chat.css">
 
-  <div class='example-chat-toolbar'>
-    <label for="nameInput">Username:</label>
-    <input type='text' id='nameInput' placeholder='enter a username...'>
-  </div>
+    <title>Firebase Cloud Chat</title>
+  </head>
 
-  <ul id='example-messages' class="example-chat-messages"></ul>
+  <body>
+    <div class="example-chat l-demo-container">
+      <img class="example-chat-logo" src="images/cloud-chat-logo.png" />
 
-  <footer>
-    <input type='text' id='messageInput'  placeholder='Type a message...'>
-  </footer>
-</div>
+      <header>
+        <!-- APP TITLE -->
+        <div class="example-chat-toolbar">
+          <h2>Cloud Chat App</h2>
+        </div>
 
-<!-- CHAT JAVACRIPT -->
-<script>
-  // CREATE A REFERENCE TO FIREBASE
-  var messagesRef = new Firebase('luminous-heat-3400.firebaseIO.com');
+        <!-- NAME FIELD -->
+        <div class='example-chat-username-field'>
+          <div class="example-chat-avatar"><i class="fa fa-bolt"></i></div>
+          <input type='text' id='username' placeholder='Enter your name...'>
+        </div>
+      </header>
 
-  // REGISTER DOM ELEMENTS
-  var messageField = $('#messageInput');
-  var nameField = $('#nameInput');
-  var messageList = $('#example-messages');
+      <!-- EMPTY MESSAGE LIST -->
+      <ul id='messages' class="example-chat-messages"></ul>
 
-  // LISTEN FOR KEYPRESS EVENT
-  messageField.keypress(function (e) {
-    if (e.keyCode == 13) {
-      //FIELD VALUES
-      var username = nameField.val();
-      var message = messageField.val();
+      <!-- MESSAGE INPUT FIELD -->
+      <footer>
+        <i class="fa fa-comment-o icon-chat"></i>
+        <input type='text' id='new-message'  placeholder='Type a message...'>
+      </footer>
+    </div>
 
-      //SAVE DATA TO FIREBASE AND EMPTY FIELD
-      messagesRef.push({name:username, text:message});
-      messageField.val('');
-    }
-  });
 
-  // Add a callback that is triggered for each chat message.
-  messagesRef.limitToLast(10).on('child_added', function (snapshot) {
-    //GET DATA
-    var data = snapshot.val();
-    var username = data.name || "anonymous";
-    var message = data.text;
+    <!-- FIREBASE, JQUERY -->
+    <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-    //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-    var messageElement = $("<li>");
-    var nameElement = $("<strong class='example-chat-username'></strong>")
-    nameElement.text(username);
-    messageElement.text(message).prepend(nameElement);
-
-    //ADD MESSAGE
-    messageList.append(messageElement)
-
-    //SCROLL TO BOTTOM OF MESSAGE LIST
-    messageList[0].scrollTop = messageList[0].scrollHeight;
-  });
-</script>
-</body>
+    <!-- CHAT.JS FILE -->
+    <script src="js/chat.js"></script>
+  </body>
 </html>
